@@ -1,22 +1,23 @@
 <template>
   <div class="container flow flex crew">
     <h1 class="numbered-title"><span>01</span> Pick your Destination</h1>
-    <div v-if="member" class="img-container flex">
-      <img class="member-picture" :src="member['webp-image'].guid" alt="" />
-    </div>
-    <div class="dot-indicators flex">
-      <button
-        v-for="(item, index) in crew"
-        :key="index"
-        @click="setMember(index)"
-      ></button>
-    </div>
-    <div class="container flex member-info" v-if="member">
-      <div class="uppercase ff-serif member-role">{{ member['role'] }}</div>
-      <div class="uppercase ff-serif fs-700 member-name">
-        {{ member['crew-name'] }}
+    <div id="content" v-if="destination">
+      <img :src="destination['png-image'].guid" />
+      <ul>
+        <li
+          v-for="(item, index) in destinations"
+          :key="item['destination-name']"
+          @click="setDestination(index)"
+        >
+          {{ item['destination-name'] }}
+        </li>
+      </ul>
+      <h2>{{ destination['destination-name'] }}</h2>
+      <p>{{ destination.description }}</p>
+      <div>
+        <span>{{ destination.distance }}</span>
+        <span>{{ destination.travel }}</span>
       </div>
-      <p class="text-accent">{{ member.bio }}</p>
     </div>
   </div>
 </template>
@@ -26,6 +27,7 @@ export default {
   data() {
     return {
       destinations: [],
+      activeDestinationIndex: 3,
     }
   },
   methods: {
@@ -35,11 +37,19 @@ export default {
       )
       this.destinations = await response.json()
     },
+    setDestination(index) {
+      this.activeDestinationIndex = index
+    },
   },
   mounted() {
     this.loadData()
     document.body.style.backgroundImage =
       "url('background-destination-mobile.jpg')"
+  },
+  computed: {
+    destination() {
+      return this.destinations[this.activeDestinationIndex]
+    },
   },
 }
 </script>
