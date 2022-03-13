@@ -14,10 +14,14 @@
         </li>
       </ul>
       <div class="vehicle-info">
-        <h3>The Terminology ...</h3>
+        <h3 class="uppercase fs-200 ff-sans-cond">The Terminology ...</h3>
 
-        <h2>{{ technology['technology-name'] }}</h2>
-        <p>{{ technology.description }}</p>
+        <h2 class="uppercase tech-name ff-serif">
+          {{ technology['technology-name'] }}
+        </h2>
+        <p class="tech-description ff-sans-normal">
+          {{ technology.description }}
+        </p>
       </div>
     </div>
   </div>
@@ -28,7 +32,7 @@ export default {
   data() {
     return {
       technologies: [],
-      activeTechnologyIndex: 2,
+      activeTechnologyIndex: 0,
     }
   },
   methods: {
@@ -49,7 +53,9 @@ export default {
   },
   computed: {
     technology() {
-      return this.technologies[this.activeTechnologyIndex]
+      return this.technologies[
+        this.technologies.length - 1 - this.activeTechnologyIndex
+      ]
     },
   },
 }
@@ -66,12 +72,10 @@ export default {
   text-align: center;
 }
 img {
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  max-width: 125%;
+  width: auto;
 }
 
 .numbered-title {
@@ -81,7 +85,13 @@ img {
 .dot-indicators {
   list-style-type: none;
   justify-content: center;
-  margin-left: -15vw;
+  margin-left: -10vw;
+  padding-top: 1vh;
+}
+
+.dot-indicators > *:hover {
+  background-color: white;
+  color: black;
 }
 
 .tech-number {
@@ -89,5 +99,14 @@ img {
 
   border: solid white 1px;
   background: none;
+}
+
+.tech-name {
+  font-size: 1.5rem;
+  padding-bottom: 1vh;
+}
+
+.tech-description {
+  font-size: 0.94rem;
 }
 </style>
